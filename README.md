@@ -10,7 +10,7 @@ Execute this command :
   $  sudo docker build -t qtnacl5.4.2 .
   ```
 It will take a lot of time !!!
-Then execute this command to run the image :
+Then execute this command to run a container :
 
   ```
   $  sudo docker run -i -t qtnacl5.4.2 /bin/bash
