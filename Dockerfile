@@ -24,7 +24,6 @@ WORKDIR /opt
 #******************************
 #  get the script and apply it
 #******************************
-RUN git clone https://gist.github.com/e975582e9a64fffc0199.git
-RUN mv e975582e9a64fffc0199/QtNaCl_docker.sh .
+RUN wget https://raw.githubusercontent.com/theshadowx/DockerFile_Qt5.4_NaCl/fromScript/QtNaCl_docker.sh
 RUN chmod +x QtNaCl_docker.sh
 RUN sh QtNaCl_docker.sh
