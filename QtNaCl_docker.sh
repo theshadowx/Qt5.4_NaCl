@@ -54,4 +54,3 @@ mv compile /usr/bin
 printf 'y' | rm -r qt5-qtdeclarative-nacl
 printf 'y' | rm -r qt5-qtbase-nacl
 #printf 'y' | rm -r Qt5.4.2
-printf 'y' | rm -r e975582e9a64fffc0199
