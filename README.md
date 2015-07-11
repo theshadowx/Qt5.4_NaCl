@@ -1,4 +1,6 @@
 # DockerFile Qt5.4 NaCl
+
+[![Join the chat at https://gitter.im/theshadowx/DockerFile_Qt5.4_NaCl](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/theshadowx/DockerFile_Qt5.4_NaCl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 DockerFile to generate a base image for ubuntu 14.04 with Qt5.4 and NaCl
 
 ## How to use 
