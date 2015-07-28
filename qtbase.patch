@@ -1,15 +1,13 @@
 diff --git a/nacl-configure b/nacl-configure
-new file mode 100644
-index 0000000..8eb47d7
+index 0472adc..4e10c9a 100755
 --- a/nacl-configure
 +++ b/nacl-configure
-@@ -0,0 +1,9 @@
-+@@ -194,7 +194,7 @@ if [[ $TOOLCHAIN != "host" ]]; then
-+     NACL_CONFIGURE_LINE="$NACL_CONFIGURE_LINE -no-sse2"
-+ fi
-+ # misc
-+-NACL_CONFIGURE_LINE="$NACL_CONFIGURE_LINE -no-qpa-platform-guard -skip xmlpatterns -no-warnings-are-errors -no-qml-debug -no-dbus"
-++NACL_CONFIGURE_LINE="$NACL_CONFIGURE_LINE -no-qpa-platform-guard -no-warnings-are-errors -no-qml-debug -no-dbus"
-+ 
-+ # Newlib is static builds only.
-+ if [[ $QT_MKSPEC == *newlib* ]]
+@@ -194,7 +194,7 @@ if [[ $TOOLCHAIN != "host" ]]; then
+     NACL_CONFIGURE_LINE="$NACL_CONFIGURE_LINE -no-sse2"
+ fi
+ # misc
+-NACL_CONFIGURE_LINE="$NACL_CONFIGURE_LINE -no-qpa-platform-guard -skip xmlpatterns -no-warnings-are-errors -no-qml-debug -no-dbus"
++NACL_CONFIGURE_LINE="$NACL_CONFIGURE_LINE -no-qpa-platform-guard -no-warnings-are-errors -no-qml-debug -no-dbus"
+ 
+ # Newlib is static builds only.
+ if [[ $QT_MKSPEC == *newlib* ]]
