@@ -5,6 +5,7 @@ wget http://storage.googleapis.com/nativeclient-mirror/nacl/nacl_sdk/nacl_sdk.zi
 unzip nacl_sdk.zip
 rm nacl_sdk.zip   
 nacl_sdk/naclsdk list
+
 # get the latest stable bender
 nacl_sdk/naclsdk update
 pepperDir=$(find ./nacl_sdk -maxdepth 1 -type d -printf "%f\n" | grep 'pepper')
@@ -19,24 +20,39 @@ cd Qt5.4.2
 git checkout 5.4.2
 perl init-repository
 cd ..
- 
+
+# clone modules for NaCl 
 git clone https://github.com/msorvig/qt5-qtbase-nacl.git
 git clone https://github.com/msorvig/qt5-qtdeclarative-nacl.git
 cd qt5-qtdeclarative-nacl
 sh bin/rename-qtdeclarative-symbols.sh  $PWD
 cd ..
- 
+
+# replace modules
 printf 'y' | rm -r Qt5.4.2/qtbase
 printf 'y' | rm -r Qt5.4.2/qtdeclarative
 cp -r qt5-qtbase-nacl Qt5.4.2/qtbase
 cp -r qt5-qtdeclarative-nacl Qt5.4.2/qtdeclarative
- 
+
+# apply patch
+wget https://raw.githubusercontent.com/theshadowx/DockerFile_Qt5.4_NaCl/fromScript/qtbase.patch
+cd Qt5.4.2/qtbase
+git apply ../../qtbase.patch
+cd ../..
+wget https://raw.githubusercontent.com/theshadowx/DockerFile_Qt5.4_NaCl/fromScript/tools.patch
+cd Qt5.4.2/qttools
+git apply ../../tools.patch
+cd ../..
+
+# Compile modules 
 mkdir QtNacl_5.4
 cd QtNacl_5.4
 bash ../Qt5.4.2/qtbase/nacl-configure linux_x86_newlib release 64
 make module-qtbase -j6
 make module-qtdeclarative -j6
 make module-qtquickcontrols -j6
+make module-qtmultimedia -j6
+make module-qtxmlpatterns -j6
 
 echo "export PATH=$PATH:$PWD/qtbase/bin" >> ~/.bashrc
 source ~/.bashrc
