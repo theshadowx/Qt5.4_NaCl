@@ -1,27 +1,40 @@
-# DockerFile Qt5.4 NaCl
-DockerFile to generate a base image for ubuntu 14.04 with Qt5.4 and NaCl
+# Qt5.4 NaCl
+This repository contains dockerFile to make an image based on Ubuntu 14.04 and containing Qt5.4 compiled with Google Chrome Native Client (NaCl).
 
-## How to use 
+## Buiding the image from dockerFile
 In a termial go to the folder where have put Dockerfile.
 
 Execute this command : 
 
   ```
-  $  sudo docker build -t qtnacl5.4.2 .
+  $  docker build -t qtnacl5.4.2 .
   ```
 It will take a lot of time !!!
 Then execute this command to run a container :
 
   ```
-  $  sudo docker run -i -t qtnacl5.4.2 /bin/bash
+  $  docker run -i -t qtnacl5.4.2 /bin/bash
   ```
   
 The NaCl SDK is in
   ```
-  /opt/nacl_sdk/pepper_41
+  /opt/nacl_sdk/pepper_(version)
   ```
 The Qt compiled with Nacl is in
   ```
-  /opt/Qt_nacl/build/qtbase/bin
+  /opt/QtNaCl5.4/
   ```
- 
+## Getting the image form Docker Hub
+Instead of building yourself the image, it is automatically built each time the dockerfile is modified.
+
+you can get the image by pulling it:
+
+```
+$ docker pull theshadowx/qt5.4-nacl
+```
+
+To use it, you'll need just to run a container:
+
+```
+$ docker run -it theshadowx/qt5.4-nacl
+```
