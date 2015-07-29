@@ -35,11 +35,11 @@ cp -r qt5-qtbase-nacl Qt5.4.2_src/qtbase
 cp -r qt5-qtdeclarative-nacl Qt5.4.2_src/qtdeclarative
 
 # apply patch
-wget https://raw.githubusercontent.com/theshadowx/DockerFile_Qt5.4_NaCl/fromScript/qtbase.patch
+wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/qtbase.patch
 cd Qt5.4.2_src/qtbase
 git apply ../../qtbase.patch
 cd ../..
-wget https://raw.githubusercontent.com/theshadowx/DockerFile_Qt5.4_NaCl/fromScript/tools.patch
+wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/tools.patch
 cd Qt5.4.2_src/qttools
 git apply ../../tools.patch
 cd ../..
@@ -57,14 +57,10 @@ make install
 echo "export PATH=$PATH:/opt/QtNaCl_5.4/bin" >> ~/.bashrc
 source ~/.bashrc
 
-# go back to /opt
 cd /opt
-git clone https://gist.github.com/8357a17d6839acd53105.git
-mv 8357a17d6839acd53105/compile.sh .
-printf 'y' | rm -r 8357a17d6839acd53105
-chmod +x compile.sh
-ln -s compile.sh compile
-mv compile /usr/bin
+wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/compilenacl.sh
+chmod +x compilenacl.sh
+mv compilenacl.sh /usr/bin/compilenacl
 
 # Cleaning
 printf 'y' | rm -r qt5-qtdeclarative-nacl
