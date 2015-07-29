@@ -45,8 +45,9 @@ git apply ../../tools.patch
 cd ../..
 
 # Compile modules 
-cd /opt/Qt5.4.2_src/qtbase/
-bash ./nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4
+mkdir build
+cd build 
+bash /opt/Qt5.4.2_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4
 make module-qtbase -j6
 make module-qtdeclarative -j6
 make module-qtquickcontrols -j6
