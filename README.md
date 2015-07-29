@@ -28,7 +28,7 @@ The Qt compiled with Nacl is in
   /opt/QtNaCl5.4/
   ```
 ## Getting the image form Docker Hub
-Instead of building yourself the image, it is automatically built each time the dockerfile is modified.
+Instead of building yourself the image, it is automatically built each time the git repository is modified.
 
 you can get the image by pulling it:
 
