@@ -17,10 +17,13 @@ Then execute this command to run a container :
   ```
   
 The NaCl SDK is in
+
   ```
   /opt/nacl_sdk/pepper_(version)
   ```
+  
 The Qt compiled with Nacl is in
+
   ```
   /opt/QtNaCl5.4/
   ```
