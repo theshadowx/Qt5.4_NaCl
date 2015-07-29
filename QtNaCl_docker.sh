@@ -70,3 +70,6 @@ mv compile /usr/bin
 printf 'y' | rm -r qt5-qtdeclarative-nacl
 printf 'y' | rm -r qt5-qtbase-nacl
 printf 'y' | rm -r Qt5.4.2_src
+rm qtbase.patch
+rm tools.patch
+rm QtNaCl_docker.sh
