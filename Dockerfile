@@ -3,8 +3,8 @@ MAINTAINER Ali Diouri <alidiouri@gmail.com>
 
 # install depdencies
 RUN apt-get update          &&  \
-    apt-get -y upgrade      &&  \
-    apt-get install -y          \
+    DEBIAN_FRONTEND=noninteractive apt-get -y upgrade      &&  \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y          \
         git                     \
         make                    \
         build-essential         \
@@ -16,8 +16,8 @@ RUN apt-get update          &&  \
         python2.7               \
         unzip                   \
         wget                &&  \
-    apt-get build-dep -y qt5-default && \
-    apt-get install -y "^libxcb.*" \
+    DEBIAN_FRONTEND=noninteractive apt-get build-dep -y qt5-default && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y "^libxcb.*" \
         libx11-xcb-dev \
         libglu1-mesa-dev \
         libxrender-dev \
