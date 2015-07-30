@@ -40,7 +40,7 @@ cd Qt5.4_src/qtbase
 git apply ../../qtbase.patch
 cd ../..
 wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/tools.patch
-cd Qt5.4_src/qttools
+cd Qt5.4_src/qtxmlpatterns
 git apply ../../tools.patch
 cd ../..
 
@@ -48,11 +48,17 @@ cd ../..
 mkdir build
 cd build 
 bash /opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4
+echo "BUILDING qtbase"
 make module-qtbase -j6
+echo "BUILDING qtdeclarative"
 make module-qtdeclarative -j6
+echo "BUILDING qtquickcontrols"
 make module-qtquickcontrols -j6
+echo "BUILDING qtmultimedia"
 make module-qtmultimedia -j6
+echo "BUILDING qtxmlpatterns"
 make module-qtxmlpatterns -j6
+echo "INSTALLING"
 make install
 
 echo "export PATH=$PATH:/opt/QtNaCl_5.4/bin" >> ~/.bashrc
