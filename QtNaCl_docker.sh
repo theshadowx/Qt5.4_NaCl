@@ -24,7 +24,7 @@ cd ..
 # clone modules for NaCl 
 git clone https://github.com/msorvig/qt5-qtbase-nacl.git
 cd qt5-qtbase-nacl
-git checkout nacl-dev
+git checkout nacl-5.4
 cd ..
 git clone https://github.com/msorvig/qt5-qtdeclarative-nacl.git
 cd qt5-qtdeclarative-nacl
