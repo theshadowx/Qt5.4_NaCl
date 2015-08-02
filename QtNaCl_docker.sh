@@ -48,8 +48,7 @@ git apply ../../tools.patch
 cd ../..
 
 # Compile modules 
-mkdir build
-cd build 
+cd /opt/Qt5.4_src/qtbase
 bash /opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4
 echo "BUILDING qtbase"
 make module-qtbase -j6
