@@ -2,7 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER Ali Diouri <alidiouri@gmail.com>
 
 # install depdencies
-RUN sudo apt-get update          &&  \
+RUN apt-get update          &&  \
     DEBIAN_FRONTEND=noninteractive apt-get -y upgrade      &&  \
     DEBIAN_FRONTEND=noninteractive apt-get install -y          \
         git                     \
