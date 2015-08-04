@@ -16,6 +16,21 @@ diff --git a/src/corelib/kernel/qfunctions_nacl.cpp b/src/corelib/kernel/qfuncti
 index a5d86c9..a143d80 100644
 --- a/src/corelib/kernel/qfunctions_nacl.cpp
 +++ b/src/corelib/kernel/qfunctions_nacl.cpp
+@@ -99,12 +99,12 @@ int pthread_attr_getinheritsched(const pthread_attr_t *, int *)
+     return 0;
+ }
+ 
+-int pthread_condattr_init(pthread_condattr_t *)
++int pthread_condattr_init(pthread_condattr_t *) __attribute__((weak))
+ {
+     return 0;
+ }
+ 
+-int pthread_condattr_destroy(pthread_condattr_t *attr)
++int pthread_condattr_destroy(pthread_condattr_t *attr) __attribute__((weak))
+ {
+     return 0;
+ }
 @@ -308,12 +308,12 @@ int pthread_attr_setstacksize(pthread_attr_t *attr, size_t stacksize)
      return 0;
  }
@@ -31,3 +46,19 @@ index a5d86c9..a143d80 100644
  {
      return 0;
  }
+
+diff --git a/src/corelib/kernel/qfunctions_nacl.h b/src/corelib/kernel/qfunctions_nacl.h
+index 71201a6..41405da 100644
+--- a/src/corelib/kernel/qfunctions_nacl.h
++++ b/src/corelib/kernel/qfunctions_nacl.h
+@@ -73,8 +73,8 @@ int pthread_attr_getinheritsched(const pthread_attr_t *attr,
+     int *inheritsched);
+ 
+ // No condition variable attributes on pnacl, and no dummy pthread_condattr_* either
+-int pthread_condattr_init(pthread_condattr_t *);
+-int pthread_condattr_destroy(pthread_condattr_t *);
++int pthread_condattr_init(pthread_condattr_t *)  __attribute__((weak));
++int pthread_condattr_destroy(pthread_condattr_t *)  __attribute__((weak));
+ 
+ pid_t getpid(void);
+ uid_t geteuid(void);
