@@ -22,9 +22,9 @@ perl init-repository
 cd ..
 
 # clone modules for NaCl 
-git clone https://github.com/msorvig/qt5-qtbase-nacl.git
+git clone https://github.com/qtproject/qtbase.git
 cd qt5-qtbase-nacl
-git checkout nacl-dev
+git checkout wip/nacl
 cd ..
 git clone https://github.com/msorvig/qt5-qtdeclarative-nacl.git
 cd qt5-qtdeclarative-nacl
