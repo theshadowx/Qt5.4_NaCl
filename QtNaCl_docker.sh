@@ -22,9 +22,9 @@ perl init-repository
 cd ..
 
 # clone modules for NaCl 
-git clone https://github.com/qtproject/qtbase.git
-cd qtbase
-git checkout wip/nacl
+git clone clone https://github.com/msorvig/qt5-qtbase-nacl.git
+cd qt5-qtbase-nacl
+git checkout nacl-dev
 cd ..
 git clone https://github.com/msorvig/qt5-qtdeclarative-nacl.git
 cd qt5-qtdeclarative-nacl
@@ -34,7 +34,7 @@ cd ..
 # replace modules
 printf 'y' | rm -r Qt5.4_src/qtbase
 printf 'y' | rm -r Qt5.4_src/qtdeclarative
-cp -r qtbase Qt5.4_src/qtbase
+cp -r qt5-qtbase-nacl Qt5.4_src/qtbase
 cp -r qt5-qtdeclarative-nacl Qt5.4_src/qtdeclarative
 
 # apply patch
@@ -79,7 +79,7 @@ mv compilenacl.sh /usr/bin/compilenacl
 
 # Cleaning
 printf 'y' | rm -r qt5-qtdeclarative-nacl
-printf 'y' | rm -r qtbase
+printf 'y' | rm -r qt5-qtbase-nacl
 printf 'y' | rm -r Qt5.4_src
 printf 'y' | rm -r build
 rm qtbase.patch
