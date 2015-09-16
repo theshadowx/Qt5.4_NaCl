@@ -14,38 +14,39 @@ bash -c "source ~/.bashrc"
 export NACL_SDK_ROOT=$PWD/nacl_sdk/${pepperDir}
 echo $NACL_SDK_ROOT
  
+ cd /opt
+ 
 # Checkout Qt 5.4
 git clone git://code.qt.io/qt/qt5.git Qt5.4_src
-cd Qt5.4_src
+cd /opt/Qt5.4_src
 git checkout 5.4
 perl init-repository
-cd ..
+cd /opt
 
 # clone modules for NaCl 
 git clone clone https://github.com/msorvig/qt5-qtbase-nacl.git
-cd qt5-qtbase-nacl
+cd /opt/qt5-qtbase-nacl
 git checkout nacl-dev
-cd ..
+cd /opt
 git clone https://github.com/msorvig/qt5-qtdeclarative-nacl.git
-cd qt5-qtdeclarative-nacl
+cd /opt/qt5-qtdeclarative-nacl
 sh bin/rename-qtdeclarative-symbols.sh  $PWD
-cd ..
+cd /opt
 
 # replace modules
-printf 'y' | rm -r Qt5.4_src/qtbase
-printf 'y' | rm -r Qt5.4_src/qtdeclarative
-cp -r qt5-qtbase-nacl Qt5.4_src/qtbase
-cp -r qt5-qtdeclarative-nacl Qt5.4_src/qtdeclarative
+printf 'y' | rm -r /opt/Qt5.4_src/qtbase
+printf 'y' | rm -r /opt/Qt5.4_src/qtdeclarative
+cp -r qt5-qtbase-nacl /opt/Qt5.4_src/qtbase
+cp -r qt5-qtdeclarative-nacl /opt/Qt5.4_src/qtdeclarative
 
 # apply patch
 wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/qtbase.patch
-cd Qt5.4_src/qtbase
-git apply ../../qtbase.patch
-cd ../..
+cd /opt/Qt5.4_src/qtbase
+git apply /opt/qtbase.patch
+cd /opt
 wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/tools.patch
-cd Qt5.4_src/qtxmlpatterns
-git apply ../../tools.patch
-cd ../..
+cd /opt/Qt5.4_src/qtxmlpatterns
+git apply /opt/tools.patch
 
 # Compile modules 
 cd /opt/Qt5.4_src/qtbase
@@ -78,10 +79,11 @@ chmod +x compilenacl.sh
 mv compilenacl.sh /usr/bin/compilenacl
 
 # Cleaning
-printf 'y' | rm -r qt5-qtdeclarative-nacl
-printf 'y' | rm -r qt5-qtbase-nacl
-printf 'y' | rm -r Qt5.4_src
+cd /opt
+printf 'y' | rm -r /opt/qt5-qtdeclarative-nacl
+printf 'y' | rm -r /opt/qt5-qtbase-nacl
+printf 'y' | rm -r /opt/Qt5.4_src
 printf 'y' | rm -r build
-rm qtbase.patch
-rm tools.patch
-rm QtNaCl_docker.sh
+rm /opt/qtbase.patch
+rm /opt/tools.patch
+
