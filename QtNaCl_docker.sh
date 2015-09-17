@@ -19,7 +19,7 @@ echo $NACL_SDK_ROOT
 # Checkout Qt 5.4
 git clone git://code.qt.io/qt/qt5.git Qt5.4_src
 cd /opt/Qt5.4_src
-git checkout 5.5
+git checkout 5.4
 perl init-repository
 cd /opt
 
