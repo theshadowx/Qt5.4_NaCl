@@ -19,7 +19,7 @@ echo $NACL_SDK_ROOT
 # Checkout Qt 5.4
 git clone git://code.qt.io/qt/qt5.git Qt5.4_src
 cd /opt/Qt5.4_src
-git checkout 5.5
+git checkout 5.4
 perl init-repository
 cd /opt
 
@@ -40,13 +40,16 @@ cp -r qt5-qtbase-nacl /opt/Qt5.4_src/qtbase
 cp -r qt5-qtdeclarative-nacl /opt/Qt5.4_src/qtdeclarative
 
 # apply patch
+cd /opt
 wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/qtbase.patch
+wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/tools.patch
+wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/qtsvg.patch
 cd /opt/Qt5.4_src/qtbase
 git apply /opt/qtbase.patch
-cd /opt
-wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/tools.patch
 cd /opt/Qt5.4_src/qtxmlpatterns
 git apply /opt/tools.patch
+cd /opt/Qt5.4_src/qtsvg
+git apply /opt/qtsvg.patch
 
 # Compile modules 
 cd /opt/Qt5.4_src/qtbase
@@ -86,4 +89,5 @@ printf 'y' | rm -r /opt/Qt5.4_src
 printf 'y' | rm -r build
 rm /opt/qtbase.patch
 rm /opt/tools.patch
+rm /opt/qtsvg.patch
 
