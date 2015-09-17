@@ -24,7 +24,7 @@ perl init-repository
 cd /opt
 
 # clone modules for NaCl 
-git clone clone https://github.com/msorvig/qt5-qtbase-nacl.git
+git clone https://github.com/msorvig/qt5-qtbase-nacl.git
 cd /opt/qt5-qtbase-nacl
 git checkout nacl-dev
 cd /opt
