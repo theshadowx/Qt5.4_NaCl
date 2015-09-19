@@ -2,7 +2,7 @@ diff --git a/src/svg/qsvggenerator.cpp b/src/svg/qsvggenerator.cpp
 index cf69b7f..9fe5a13 100644
 --- a/src/svg/qsvggenerator.cpp
 +++ b/src/svg/qsvggenerator.cpp
-@@ -255,17 +255,17 @@ class QSvgPaintEngine : public QPaintEngine
+@@ -255,17 +255,17 @@ public:
              if (!constantAlpha) {
                  const qreal spacing = qreal(0.02);
                  QGradientStops newStops;
