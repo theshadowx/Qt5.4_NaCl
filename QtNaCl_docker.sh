@@ -20,13 +20,14 @@ echo $NACL_SDK_ROOT
 git clone git://code.qt.io/qt/qt5.git Qt5.4_src
 cd /opt/Qt5.4_src
 git checkout 5.4
+git submodule foreach 'git checkout 5.4'
 perl init-repository
 cd /opt
 
 # clone modules for NaCl 
 git clone https://github.com/msorvig/qt5-qtbase-nacl.git
 cd /opt/qt5-qtbase-nacl
-git checkout nacl-dev
+git checkout nacl-5.4
 cd /opt
 git clone https://github.com/msorvig/qt5-qtdeclarative-nacl.git
 cd /opt/qt5-qtdeclarative-nacl
@@ -90,4 +91,3 @@ printf 'y' | rm -r build
 rm /opt/qtbase.patch
 rm /opt/tools.patch
 rm /opt/qtsvg.patch
-
