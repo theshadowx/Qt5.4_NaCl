@@ -54,7 +54,7 @@ git apply /opt/qtsvg.patch
 
 # Compile modules 
 cd /opt/Qt5.4_src/qtbase
-bash -c "/opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4"
+bash -c "/opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4 -nomake examples -nomake tests -nomake tools"
 echo "BUILDING qtbase********************************************************************************************"
 echo "***********************************************************************************************************"
 make module-qtbase -j6
