@@ -9,7 +9,7 @@ nacl_sdk/naclsdk list
 # get the latest stable bender
 nacl_sdk/naclsdk update
 pepperDir=$(find ./nacl_sdk -maxdepth 1 -type d -printf "%f\n" | grep 'pepper')
-echo "export NACL_SDK_ROOT=$PWD/nacl_sdk/${pepperDir}" >> ~/.bashrc
+echo "export NACL_SDK_ROOT=/opt/nacl_sdk/${pepperDir}" >> ~/.bashrc
 bash -c "source ~/.bashrc"
 export NACL_SDK_ROOT=$PWD/nacl_sdk/${pepperDir}
 echo $NACL_SDK_ROOT
