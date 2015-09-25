@@ -72,7 +72,19 @@ echo "**************************************************************************
 make module-qtxmlpatterns -j6
 echo "INSTALLING*************************************************************************************************"
 echo "***********************************************************************************************************"
+cd /opt/Qt5.4_src/qtbase/qtbase
 make install
+cd /opt/Qt5.4_src/qtbase/qtdeclarative/
+make install
+cd /opt/Qt5.4_src/qtbase/qtquickcontrols/
+make install
+cd /opt/Qt5.4_src/qtbase/qtmultimedia/
+make install
+cd /opt/Qt5.4_src/qtbase/qtsvg/
+make install
+cd /opt/Qt5.4_src/qtbase/qtxmlpatterns/
+make install
+
 
 echo "export PATH=$PATH:/opt/QtNaCl_5.4/bin" >> ~/.bashrc
 source ~/.bashrc
@@ -84,10 +96,10 @@ mv compilenacl.sh /usr/bin/compilenacl
 
 # Cleaning
 cd /opt
-printf 'y' | rm -r /opt/qt5-qtdeclarative-nacl
-printf 'y' | rm -r /opt/qt5-qtbase-nacl
-printf 'y' | rm -r /opt/Qt5.4_src
-printf 'y' | rm -r build
+printf 'y' | rm -rf /opt/qt5-qtdeclarative-nacl
+printf 'y' | rm -rf /opt/qt5-qtbase-nacl
+printf 'y' | rm -rf /opt/Qt5.4_src
+
 rm /opt/qtbase.patch
 rm /opt/tools.patch
 rm /opt/qtsvg.patch
