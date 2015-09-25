@@ -98,8 +98,12 @@ mv compilenacl.sh /usr/bin/compilenacl
 cd /opt
 printf 'y' | rm -rf /opt/qt5-qtdeclarative-nacl
 printf 'y' | rm -rf /opt/qt5-qtbase-nacl
-printf 'y' | rm -rf /opt/Qt5.4_src
+rm -rf Qt5.4_src/* Qt5.4_src/.git*   
+rm -rf Qt5.4_src/qtbase/* Qt5.4_src/qtbase/.git* Qt5.4_src/qtbase/.qmake.conf  Qt5.4_src/qtbase/.tag Qt5.4_src/qtbase/.qmake.super
+rm -rf Qt5.4_src/qtdeclarative/* Qt5.4_src/qtdeclarative/.git* Qt5.4_src/qtdeclarative/.qmake.conf  Qt5.4_src/qtdeclarative/.tag
+rm -rf /opt/Qt5.4_src/.commit-template   /opt/Qt5.4_src/.tag /opt/Qt5.4_src
 
 rm /opt/qtbase.patch
 rm /opt/tools.patch
 rm /opt/qtsvg.patch
+
