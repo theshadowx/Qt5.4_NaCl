@@ -55,7 +55,6 @@ RUN apt-get update          &&  \
 # Go to opt
 WORKDIR /opt   
 
-
 #******************************
 #  get the script and apply it
 #******************************
@@ -147,6 +146,5 @@ RUN rm -rf /opt/Qt5.4_src/.commit-template   /opt/Qt5.4_src/.tag /opt/Qt5.4_src
 RUN rm /opt/qtbase.patch
 RUN rm /opt/tools.patch
 RUN rm /opt/qtsvg.patch
-
 
 EXPOSE 8000
