@@ -3,8 +3,8 @@ MAINTAINER Ali Diouri <alidiouri@gmail.com>
 
 # install depdencies
 RUN apt-get update          &&  \
-    apt-get -y upgrade      &&  \
-    apt-get install -y          \
+    DEBIAN_FRONTEND=noninteractive apt-get -y upgrade      &&  \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y          \
         git                     \
         make                    \
         build-essential         \
@@ -15,52 +15,138 @@ RUN apt-get update          &&  \
         python                  \
         python2.7               \
         unzip                   \
-        wget                
+        wget                    \
+        "^libxcb.*" \
+        libx11-xcb-dev \
+        libglu1-mesa-dev \
+        libxrender-dev \
+        libxi-dev \
+        libssl-dev \
+        libxcursor-dev \
+        libxcomposite-dev \
+        libxdamage-dev \
+        libxrandr-dev \
+        libfontconfig1-dev \
+        libcap-dev \
+        libbz2-dev \
+        libgcrypt11-dev \
+        libpci-dev \
+        libnss3-dev \
+        libxcursor-dev \
+        libxcomposite-dev \
+        libxdamage-dev \
+        libxrandr-dev \
+        libdrm-dev \
+        libfontconfig1-dev \
+        libxtst-dev \
+        libasound2-dev \
+        gperf \
+        libcups2-dev \
+        libpulse-dev \
+        libudev-dev \
+        libssl-dev \
+        flex \
+        bison \
+        ruby \
+        libicu-dev \
+        libxslt-dev \
+	zlib1g-dev
 
 # Go to opt
 WORKDIR /opt   
 
-#***************************
-# Install NaCl SDK
-#***************************
-RUN wget http://storage.googleapis.com/nativeclient-mirror/nacl/nacl_sdk/nacl_sdk.zip
-RUN unzip /opt/nacl_sdk.zip
-RUN rm /opt/nacl_sdk.zip
-WORKDIR /opt/nacl_sdk    
-RUN /opt/nacl_sdk/naclsdk list
-RUN /opt/nacl_sdk/naclsdk update pepper_41
-RUN echo "export NACL_SDK_ROOT=/opt/nacl_sdk/pepper_41" >> /root/.bashrc
-RUN /bin/bash -c "source /root/.bashrc"
-ENV NACL_SDK_ROOT /opt/nacl_sdk/pepper_41
 
-#***************************
-# BUILD QT NACL
-#***************************
+#******************************
+#  get the script and apply it
+#******************************
+RUN wget http://storage.googleapis.com/nativeclient-mirror/nacl/nacl_sdk/nacl_sdk.zip
+RUN unzip ./nacl_sdk.zip
+RUN rm nacl_sdk.zip   
+RUN nacl_sdk/naclsdk list
+
+# get the latest stable bender
+RUN nacl_sdk/naclsdk update pepper_42
+ENV NACL_SDK_ROOT=/opt/nacl_sdk/pepper_42
+ 
 WORKDIR /opt
-RUN mkdir /opt/Qt_nacl
-WORKDIR /opt/Qt_nacl
-RUN git clone http://github.com/msorvig/qt5-qtbase-nacl.git
-RUN git clone http://github.com/msorvig/qt5-qtdeclarative-nacl.git
-RUN /opt/Qt_nacl/qt5-qtdeclarative-nacl/bin/rename-qtdeclarative-symbols.sh /opt/Qt_nacl/qt5-qtdeclarative-nacl
-RUN git clone http://code.qt.io/cgit/qt/qt5.git Qt5.4.2
-WORKDIR /opt/Qt_nacl/Qt5.4.2
-RUN git checkout 5.4.2
+ 
+# Checkout Qt 5.4
+RUN git clone git://code.qt.io/qt/qt5.git Qt5.4_src
+WORKDIR /opt/Qt5.4_src
+RUN git checkout 5.4
+RUN git submodule foreach 'git checkout 5.4'
 RUN perl init-repository
-RUN rm -r /opt/Qt_nacl/Qt5.4.2/qtbase
-RUN rm -r /opt/Qt_nacl/Qt5.4.2/qtdeclarative
-WORKDIR /opt/Qt_nacl/
-RUN cp -r /opt/Qt_nacl/qt5-qtbase-nacl /opt/Qt_nacl/Qt5.4.2/qtbase
-RUN cp -r /opt/Qt_nacl/qt5-qtdeclarative-nacl /opt/Qt_nacl/Qt5.4.2/qtdeclarative
-RUN mkdir -v /opt/Qt_nacl/build
-WORKDIR  /opt/Qt_nacl/build
-RUN bash /opt/Qt_nacl/Qt5.4.2/qtbase/nacl-configure linux_x86_newlib release 64
+WORKDIR /opt
+
+# clone modules for NaCl 
+RUN git clone https://github.com/msorvig/qt5-qtbase-nacl.git
+WORKDIR /opt/qt5-qtbase-nacl
+RUN git checkout nacl-5.4
+WORKDIR /opt
+RUN git clone https://github.com/msorvig/qt5-qtdeclarative-nacl.git
+WORKDIR /opt/qt5-qtdeclarative-nacl
+RUN bin/rename-qtdeclarative-symbols.sh  $PWD
+WORKDIR /opt
+
+# replace modules
+RUN printf 'y' | rm -r /opt/Qt5.4_src/qtbase
+RUN printf 'y' | rm -r /opt/Qt5.4_src/qtdeclarative
+RUN cp -r qt5-qtbase-nacl /opt/Qt5.4_src/qtbase
+RUN cp -r qt5-qtdeclarative-nacl /opt/Qt5.4_src/qtdeclarative
+
+# apply patch
+WORKDIR /opt
+RUN wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/qtbase.patch
+RUN wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/tools.patch
+RUN wget https://raw.githubusercontent.com/theshadowx/Qt5.4_NaCl/fromScript/qtsvg.patch
+WORKDIR /opt/Qt5.4_src/qtbase
+RUN git apply /opt/qtbase.patch
+WORKDIR /opt/Qt5.4_src/qtxmlpatterns
+RUN git apply /opt/tools.patch
+WORKDIR /opt/Qt5.4_src/qtsvg
+RUN git apply /opt/qtsvg.patch
+
+# Compile modules 
+WORKDIR /opt/Qt5.4_src/qtbase
+RUN bash -c " NACL_SDK_ROOT=/opt/nacl_sdk/$(find /opt/nacl_sdk -maxdepth 1 -type d -printf "%f\n" | grep 'pepper')  /opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4 -v -re
+lease -nomake examples -nomake tests -nomake tools"
+
+# Compiling modules
 RUN make module-qtbase -j6
 RUN make module-qtdeclarative -j6
 RUN make module-qtquickcontrols -j6
-RUN rm -rf /opt/Qt_nacl/qt5-qtbase-nacl
-RUN cp -r /opt/Qt_nacl/qt5-qtdeclarative-nacl/examples/ /opt/Qt_nacl/
-RUN rm -rf /opt/Qt_nacl/qt5-qtdeclarative-nacl
-WORKDIR /root
-RUN echo "export PATH=\$PATH:/opt/Qt_nacl/build/qtbase/bin" >> /root/.bashrc
-RUN echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:/opt/Qt_nacl/build/qtbase/lib"  >> /root/.bashrc
-RUN /bin/bash -c "source /root/.bashrc"
+RUN make module-qtmultimedia -j6
+RUN make module-qtxmlpatterns -j6
+
+# Installing modules
+WORKDIR /opt/Qt5.4_src/qtbase/qtbase
+RUN make install
+WORKDIR /opt/Qt5.4_src/qtbase/qtdeclarative/
+RUN make install
+WORKDIR /opt/Qt5.4_src/qtbase/qtquickcontrols/
+RUN make install
+WORKDIR /opt/Qt5.4_src/qtbase/qtmultimedia/
+RUN make install
+WORKDIR /opt/Qt5.4_src/qtbase/qtsvg/
+RUN make install
+WORKDIR /opt/Qt5.4_src/qtbase/qtxmlpatterns/
+RUN make install
+
+# Adding Qt to the environement variables
+ENV PATH=$PATH:/opt/QtNaCl_5.4/bin:/opt/QtNaCl_5.4/lib
+
+# Cleaning
+WORKDIR /opt/
+RUN printf 'y' | rm -rf /opt/qt5-qtdeclarative-nacl
+RUN printf 'y' | rm -rf /opt/qt5-qtbase-nacl
+RUN rm -rf Qt5.4_src/* Qt5.4_src/.git*
+RUN rm -rf Qt5.4_src/qtbase/* Qt5.4_src/qtbase/.git* Qt5.4_src/qtbase/.qmake.conf  Qt5.4_src/qtbase/.tag Qt5.4_src/qtbase/.qmake.super
+RUN rm -rf Qt5.4_src/qtdeclarative/* Qt5.4_src/qtdeclarative/.git* Qt5.4_src/qtdeclarative/.qmake.conf  Qt5.4_src/qtdeclarative/.tag
+RUN rm -rf /opt/Qt5.4_src/.commit-template   /opt/Qt5.4_src/.tag /opt/Qt5.4_src
+
+RUN rm /opt/qtbase.patch
+RUN rm /opt/tools.patch
+RUN rm /opt/qtsvg.patch
+
+
+EXPOSE 8000
