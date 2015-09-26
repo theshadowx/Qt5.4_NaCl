@@ -107,8 +107,7 @@ RUN git apply /opt/qtsvg.patch
 
 # Compile modules 
 WORKDIR /opt/Qt5.4_src/qtbase
-RUN bash -c " NACL_SDK_ROOT=/opt/nacl_sdk/$(find /opt/nacl_sdk -maxdepth 1 -type d -printf "%f\n" | grep 'pepper')  /opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4 -v -re
-lease -nomake examples -nomake tests -nomake tools"
+RUN bash -c " NACL_SDK_ROOT=/opt/nacl_sdk/$(find /opt/nacl_sdk -maxdepth 1 -type d -printf "%f\n" | grep 'pepper')  /opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4 -v -release -nomake examples -nomake tests -nomake tools"
 
 # Compiling modules
 RUN make module-qtbase -j6
