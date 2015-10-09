@@ -20,10 +20,10 @@ Then execute this command to run a container :
   
 The NaCl SDK is in
   ```
-  /opt/nacl_sdk/pepper_41
+  /opt/nacl_sdk/pepper_42
   ```
-The Qt compiled with Nacl is in
+The Qt compiled with NaCl is in
   ```
-  /opt/Qt_nacl/build/qtbase/bin
+  /opt/QtNaCl_5.4
   ```
  
