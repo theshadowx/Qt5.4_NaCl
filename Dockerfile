@@ -64,8 +64,8 @@ RUN rm nacl_sdk.zip
 RUN nacl_sdk/naclsdk list
 
 # get the latest stable bender
-RUN nacl_sdk/naclsdk update pepper_42
-ENV NACL_SDK_ROOT=/opt/nacl_sdk/pepper_42
+RUN nacl_sdk/naclsdk update pepper_44
+ENV NACL_SDK_ROOT=/opt/nacl_sdk/pepper_44
  
 WORKDIR /opt
  
@@ -131,7 +131,7 @@ WORKDIR /opt/Qt5.4_src/qtbase/qtxmlpatterns/
 RUN make install
 
 # Adding Qt to the environement variables
-ENV PATH=$PATH:/opt/QtNaCl_5.4/bin:/opt/QtNaCl_5.4/lib
+ENV PATH=$PATH:/opt/QtNaCl_5.4/qtbase/bin
 
 # Cleaning
 WORKDIR /opt/
