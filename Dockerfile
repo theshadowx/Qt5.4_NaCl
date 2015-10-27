@@ -102,12 +102,14 @@ WORKDIR /opt/Qt5.4_src/qtbase
 RUN git apply /opt/qtbase.patch
 WORKDIR /opt/Qt5.4_src/qtxmlpatterns
 RUN git apply /opt/tools.patch
-WORKDIR /opt/Qt5.4_src/qtsvg
-RUN git apply /opt/qtsvg.patch
+#WORKDIR /opt/Qt5.4_src/qtsvg
+#RUN git apply /opt/qtsvg.patch
+
+RUN mkdir /opt/QtNaCl_5.4
 
 # Compile modules 
-WORKDIR /opt/Qt5.4_src/qtbase
-RUN bash -c " NACL_SDK_ROOT=/opt/nacl_sdk/$(find /opt/nacl_sdk -maxdepth 1 -type d -printf "%f\n" | grep 'pepper')  /opt/Qt5.4_src/qtbase/nacl-configure linux_x86_newlib release 64 --prefix=/opt/QtNaCl_5.4 -v -release -nomake examples -nomake tests -nomake tools"
+WORKDIR /opt/QtNaCl_5.4
+RUN bash -c " NACL_SDK_ROOT=/opt/nacl_sdk/$(find /opt/nacl_sdk -maxdepth 1 -type d -printf "%f\n" | grep 'pepper')  /opt/Qt5.4_src/qtbase/nacl-configure linux_pnacl release 64 -v -release -nomake examples -nomake tests -nomake tools"
 
 # Compiling modules
 RUN make module-qtbase -j6
@@ -116,31 +118,13 @@ RUN make module-qtquickcontrols -j6
 RUN make module-qtmultimedia -j6
 RUN make module-qtxmlpatterns -j6
 
-# Installing modules
-WORKDIR /opt/Qt5.4_src/qtbase/qtbase
-RUN make install
-WORKDIR /opt/Qt5.4_src/qtbase/qtdeclarative/
-RUN make install
-WORKDIR /opt/Qt5.4_src/qtbase/qtquickcontrols/
-RUN make install
-WORKDIR /opt/Qt5.4_src/qtbase/qtmultimedia/
-RUN make install
-WORKDIR /opt/Qt5.4_src/qtbase/qtsvg/
-RUN make install
-WORKDIR /opt/Qt5.4_src/qtbase/qtxmlpatterns/
-RUN make install
-
 # Adding Qt to the environement variables
-ENV PATH=$PATH:/opt/QtNaCl_5.4/bin:/opt/QtNaCl_5.4/lib
+ENV PATH=$PATH:/opt/QtNaCl_5.4/qtbase/bin:/opt/QtNaCl_5.4/qtbase/lib
 
 # Cleaning
 WORKDIR /opt/
 RUN printf 'y' | rm -rf /opt/qt5-qtdeclarative-nacl
 RUN printf 'y' | rm -rf /opt/qt5-qtbase-nacl
-RUN rm -rf Qt5.4_src/* Qt5.4_src/.git*
-RUN rm -rf Qt5.4_src/qtbase/* Qt5.4_src/qtbase/.git* Qt5.4_src/qtbase/.qmake.conf  Qt5.4_src/qtbase/.tag Qt5.4_src/qtbase/.qmake.super
-RUN rm -rf Qt5.4_src/qtdeclarative/* Qt5.4_src/qtdeclarative/.git* Qt5.4_src/qtdeclarative/.qmake.conf  Qt5.4_src/qtdeclarative/.tag
-RUN rm -rf /opt/Qt5.4_src/.commit-template   /opt/Qt5.4_src/.tag /opt/Qt5.4_src
 
 RUN rm /opt/qtbase.patch
 RUN rm /opt/tools.patch
